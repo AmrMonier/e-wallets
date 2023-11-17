@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as Joi from 'joi';
+import { SnakeNamingStrategy } from './snake-naming.strategy';
 
 export interface IEnvConfig {
   [key: string]: string;
@@ -17,6 +18,7 @@ export class ConfigService {
   DATABASE_HOST: string;
   DATABASE_TYPE: string;
   NODE_ENV: string;
+  JWT_SECRET: string;
   // BROKERAGE_SESSION_EXPIRY: number;
   constructor(environment: string) {
     const filePath = `./env/${environment}.env`;
@@ -47,6 +49,7 @@ export class ConfigService {
       DATABASE_NAME: Joi.string().required(),
       DATABASE_HOST: Joi.string().required(),
       DATABASE_TYPE: Joi.string().required(),
+      JWT_SECRET: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } =
@@ -68,13 +71,11 @@ export class ConfigService {
     this.DATABASE_NAME = this.ENV_CONFIG.DATABASE_NAME;
     this.DATABASE_HOST = this.ENV_CONFIG.DATABASE_HOST;
     this.DATABASE_TYPE = this.ENV_CONFIG.DATABASE_TYPE;
+    this.JWT_SECRET = this.ENV_CONFIG.JWT_SECRET;
   }
 
   get isDevelopment(): boolean {
     return this.NODE_ENV === 'development';
-  }
-  private isTrue(value: any): boolean {
-    return String(value) === 'true';
   }
 
   get typeOrmConfig(): TypeOrmModuleOptions {
@@ -87,7 +88,8 @@ export class ConfigService {
       database: this.DATABASE_NAME,
       subscribers: [],
       migrationsRun: false,
-      logging: this.NODE_ENV === 'development' ? false : false,
+      logging: this.NODE_ENV === 'development' ? true : false,
+      namingStrategy: new SnakeNamingStrategy(),
       autoLoadEntities: true,
       synchronize: false,
       entities: [__dirname + '/modules/*/*.entity{.ts,.js}'],
