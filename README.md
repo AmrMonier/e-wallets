@@ -1,73 +1,71 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# E-Wallets Application
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Brief About the App
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The E-Wallets application is a simple yet efficient server-side application built using the NestJS framework. It's designed to handle various aspects of digital wallet management, including user accounts, transactions, security features, and data integrity by using two Factors Authentication for ensuring security and pessimistic write approach to ensure no error in balances calculations.
 
-## Description
+## Documentation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+For detailed documentation of the API endpoints and their usage, you can visit the /api endpoint once the application is running. This will provide you with a Swagger UI interface where you can view and interact with the API's endpoints.
 
 ## Installation
 
-```bash
-$ yarn install
-```
+### Using Code Base
 
-## Running the app
+To install the application using the code base, follow these steps:
 
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Test
+1. Clone the repository:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+  git clone https://github.com/AmrMonier/e-wallets.git
 ```
 
-## Support
+2. Navigate to the project directory:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+  cd e-wallets
+```
 
-## Stay in touch
+3. add your development environment variable to **/env** directory by cloning the **example.env.example** (note that files goes like this `/env/${NODE_ENV}.env` `/env/development.env`)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+4. Install the dependencies:
 
-## License
+```bash
+  yarn install
+```
 
-Nest is [MIT licensed](LICENSE).
+5. tart the application:
+
+For development:
+
+```bash
+  yarn run start
+```
+
+For watch mode:
+
+```bash
+  yarn run start:dev
+```
+
+For production mode:
+
+```bash
+  yarn run start:prod
+```
+
+### Using Docker
+
+Alternatively, you can use Docker to install and run the application. The repository includes a Dockerfile for easy setup. Here's how you can do it:
+
+1. Build the Docker image:
+
+```bash
+  docker build -t e-wallets .
+```
+
+2. Run the Docker container:
+
+```bash
+  docker run -p 3000:3000 e-wallets
+```
