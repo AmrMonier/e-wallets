@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AccountsController } from './accounts.controller';
 import { AccountsService } from './accounts.service';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountPinDto } from './dto/change-in.dto';
+import { UpdateAccountPinDto } from './dto/change-pin.dto';
 import { SubmitTransactionDto } from './dto/submit-transaction.dto';
 import { TransactionType } from './transactions.entity';
 
@@ -49,6 +49,7 @@ describe('AccountsController', () => {
       const dto: CreateAccountDto = {
         alias: 'test',
         pin: '1234',
+        pinConfirmation: '1234',
       };
 
       await controller.create(dto, req);

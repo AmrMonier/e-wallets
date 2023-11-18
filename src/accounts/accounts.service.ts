@@ -9,7 +9,7 @@ import { BaseEntity, Repository } from 'typeorm';
 import { Account } from './accounts.entity';
 import { CreateAccountDto } from './dto/create-account.dto';
 import * as bcrypt from 'bcryptjs';
-import { UpdateAccountPinDto } from './dto/change-in.dto';
+import { UpdateAccountPinDto } from './dto/change-pin.dto';
 import {
   Transaction,
   TransactionDirection,
