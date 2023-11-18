@@ -42,7 +42,7 @@ export class ConfigService {
     const envVarsSchema = Joi.object({
       TZ: Joi.string().default('Africa/Cairo'),
       PORT: Joi.string().required(),
-      NODE_ENV: Joi.string().default('development'),
+      NODE_ENV: Joi.string(),
       DATABASE_PORT: Joi.number().default(3000),
       DATABASE_USER: Joi.string().required(),
       DATABASE_PASSWORD: Joi.string().required(),
@@ -79,6 +79,8 @@ export class ConfigService {
   }
 
   get typeOrmConfig(): TypeOrmModuleOptions {
+    console.log('ENV: ', this.NODE_ENV);
+
     return {
       type: 'postgres',
       host: this.DATABASE_HOST,

@@ -1,5 +1,5 @@
 import { Exclude, plainToClass } from 'class-transformer';
-import { Account } from 'src/accounts/accounts.entity';
+import { Account } from '../accounts/accounts.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -27,6 +27,9 @@ export class User extends BaseEntity {
 
   @Column()
   birthDate: Date;
+
+  @Column()
+  mfaSecret: string;
 
   @Column({ unique: true })
   nationalId: string;

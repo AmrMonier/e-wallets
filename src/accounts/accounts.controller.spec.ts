@@ -5,15 +5,13 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountPinDto } from './dto/change-pin.dto';
 import { SubmitTransactionDto } from './dto/submit-transaction.dto';
 import { TransactionType } from './transactions.entity';
+import { User } from 'src/users/users.entity';
 
 describe('AccountsController', () => {
   let controller: AccountsController;
   let service: AccountsService;
   let req: {
-    user: {
-      userId: number;
-      username: string;
-    };
+    user: User;
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,11 +33,12 @@ describe('AccountsController', () => {
 
     controller = module.get<AccountsController>(AccountsController);
     service = module.get<AccountsService>(AccountsService);
+    const user = new User();
+    user.id = 1;
+    user.username = 'test';
+    user.mfaSecret = 'dasdsd';
     req = {
-      user: {
-        userId: 1,
-        username: 'test',
-      },
+      user,
     };
   });
 
@@ -56,7 +55,7 @@ describe('AccountsController', () => {
 
       expect(createSpy).toHaveBeenCalledWith({
         ...dto,
-        userId: req.user.userId,
+        userId: req.user.id,
       });
     });
   });
@@ -66,16 +65,10 @@ describe('AccountsController', () => {
   describe('findAll', () => {
     it('should call accountsService.findAll with correct userId', async () => {
       const findAllSpy = jest.spyOn(service, 'findAll');
-      const req = {
-        user: {
-          userId: 1,
-          username: 'test',
-        },
-      };
 
       await controller.findAll(req);
 
-      expect(findAllSpy).toHaveBeenCalledWith(req.user.userId);
+      expect(findAllSpy).toHaveBeenCalledWith(req.user.id);
     });
   });
   describe('findOne', () => {
@@ -86,7 +79,7 @@ describe('AccountsController', () => {
 
       expect(findOneSpy).toHaveBeenCalledWith({
         accountUuid: '123',
-        userId: req.user.userId,
+        userId: req.user.id,
       });
     });
   });
@@ -94,12 +87,7 @@ describe('AccountsController', () => {
   describe('update', () => {
     it('should call accountsService.changeAccountPin with correct params', async () => {
       const updateSpy = jest.spyOn(service, 'changeAccountPin');
-      const req = {
-        user: {
-          userId: 1,
-          username: 'test',
-        },
-      };
+
       const dto: UpdateAccountPinDto = {
         newPin: '5678',
         newPinConfirmation: '5678',
@@ -110,7 +98,7 @@ describe('AccountsController', () => {
 
       expect(updateSpy).toHaveBeenCalledWith({
         ...dto,
-        userId: req.user.userId,
+        userId: req.user.id,
         accountNumber: '123',
       });
     });
@@ -124,12 +112,13 @@ describe('AccountsController', () => {
         transactionType: TransactionType.DEPOSIT,
         notes: 'Test',
         pin: '1234',
+        otp: '123456',
       };
 
       await controller.submitTransaction(payload, req, '123');
 
       expect(submitTransactionSpy).toHaveBeenCalledWith({
-        userId: req.user.userId,
+        user: req.user,
         accountNumber: '123',
         ...payload,
       });
@@ -144,7 +133,7 @@ describe('AccountsController', () => {
 
       expect(spy).toHaveBeenCalledWith({
         accountUuid: '123',
-        userId: req.user.userId,
+        userId: req.user.id,
       });
     });
   });

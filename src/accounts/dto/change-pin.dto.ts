@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IsEqualTo } from 'src/decorators/is-equal.decorator';
+import { IsEqualTo } from '../../decorators/is-equal.decorator';
 
 export class UpdateAccountPinDto {
   @ApiProperty({

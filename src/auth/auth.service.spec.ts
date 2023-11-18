@@ -143,6 +143,7 @@ describe('AuthService', () => {
       };
       user.username = payload.username;
       user.id = 1;
+      user.mfaSecret = '1234568798sadasdasd';
       jest.spyOn(usersService, 'findOneBy').mockResolvedValueOnce(null);
       jest.spyOn(usersService, 'create').mockResolvedValueOnce(user);
       const result = await authService.register(payload);

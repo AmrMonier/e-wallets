@@ -8,8 +8,10 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { User } from 'src/users/users.entity';
+import { User } from '../users/users.entity';
 
+import * as QRCode from 'qrcode';
+import * as Speakeasy from 'speakeasy';
 @Injectable()
 export class AuthService {
   constructor(
@@ -38,10 +40,19 @@ export class AuthService {
     user = await this.usersService.create({
       ...payload,
     });
+    const otpauthUrl = Speakeasy.otpauthURL({
+      secret: user.mfaSecret,
+      label: `E-Wallets:${user.email}`,
+      issuer: 'E-Wallets',
+      encoding: 'hex',
+    });
+    const qrCodeImage = await QRCode.toDataURL(otpauthUrl);
+
     return {
       user,
       refreshToken: this.generateRefreshToken(user),
       accessToken: this.generateAccessToken(user),
+      authenticatorQRCode: qrCodeImage,
     };
   }
 

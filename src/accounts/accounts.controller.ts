@@ -20,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { User } from 'src/users/users.entity';
 
 @Controller('accounts')
 @ApiTags('Accounts')
@@ -40,11 +41,11 @@ export class AccountsController {
   })
   create(
     @Body() createAccountDto: CreateAccountDto,
-    @Req() req: { user: { userId: number; username: string } },
+    @Req() req: { user: User },
   ) {
     return this.accountsService.create({
       ...createAccountDto,
-      userId: req.user.userId,
+      userId: req.user.id,
     });
   }
   @Get()
@@ -55,8 +56,8 @@ export class AccountsController {
     status: 200,
     description: 'The accounts have been successfully returned',
   })
-  findAll(@Req() req: { user: { userId: number; username: string } }) {
-    return this.accountsService.findAll(req.user.userId);
+  findAll(@Req() req: { user: User }) {
+    return this.accountsService.findAll(req.user.id);
   }
 
   @Get(':id')
@@ -71,13 +72,10 @@ export class AccountsController {
     name: 'id',
     description: 'The account UUID',
   })
-  findOne(
-    @Param('id') id: string,
-    @Req() req: { user: { userId: number; username: string } },
-  ) {
+  findOne(@Param('id') id: string, @Req() req: { user: User }) {
     return this.accountsService.findOne({
       accountUuid: id,
-      userId: req.user.userId,
+      userId: req.user.id,
     });
   }
 
@@ -99,11 +97,11 @@ export class AccountsController {
   async update(
     @Param('id') id: string,
     @Body() updateAccountDto: UpdateAccountPinDto,
-    @Req() req: { user: { userId: number; username: string } },
+    @Req() req: { user: User },
   ) {
     await this.accountsService.changeAccountPin({
       ...updateAccountDto,
-      userId: req.user.userId,
+      userId: req.user.id,
       accountNumber: id,
     });
     return { message: 'pin changed successfully' };
@@ -126,12 +124,12 @@ export class AccountsController {
   })
   async submitTransaction(
     @Body() payload: SubmitTransactionDto,
-    @Req() req: { user: { userId: number; username: string } },
+    @Req() req: { user: User },
     @Param('id') id: string,
   ) {
     await this.accountsService.submitTransaction({
       ...payload,
-      userId: req.user.userId,
+      user: req.user,
       accountNumber: id,
     });
     return {
@@ -153,11 +151,11 @@ export class AccountsController {
   })
   async getAccountTransactions(
     @Param('id') id: string,
-    @Req() req: { user: { userId: number; username: string } },
+    @Req() req: { user: User },
   ) {
     return await this.accountsService.getAccountTransactions({
       accountUuid: id,
-      userId: req.user.userId,
+      userId: req.user.id,
     });
   }
 }

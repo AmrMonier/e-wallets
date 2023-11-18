@@ -16,6 +16,8 @@ import {
   TransactionType,
 } from './transactions.entity';
 import { SubmitTransactionDto } from './dto/submit-transaction.dto';
+import { User } from 'src/users/users.entity';
+import * as Speakeasy from 'speakeasy';
 @Injectable()
 export class AccountsService {
   constructor(
@@ -69,13 +71,31 @@ export class AccountsService {
   }
 
   async submitTransaction(
-    payload: SubmitTransactionDto & { userId: number; accountNumber: string },
+    payload: SubmitTransactionDto & { user: User; accountNumber: string },
   ) {
+    console.log(
+      payload.user.mfaSecret,
+      Speakeasy.totp.verify({
+        secret: payload.user.mfaSecret,
+        encoding: 'hex',
+        token: payload.otp,
+      }),
+      payload.otp,
+    );
+
+    if (
+      !Speakeasy.totp.verify({
+        secret: payload.user.mfaSecret,
+        encoding: 'hex',
+        token: payload.otp,
+      })
+    )
+      throw new ForbiddenException('Multifactor authentication failed');
     await this.accountsRepository.manager.transaction(async (manager) => {
       const sourceAccount = await manager.findOne(Account, {
         where: {
           accountNumber: payload.accountNumber,
-          userId: payload.userId,
+          userId: payload.user.id,
         },
         lock: {
           mode: 'pessimistic_write',

@@ -1,5 +1,5 @@
 import { Exclude, plainToClass } from 'class-transformer';
-import { User } from 'src/users/users.entity';
+import { User } from '../users/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

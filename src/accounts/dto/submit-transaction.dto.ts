@@ -55,4 +55,11 @@ export class SubmitTransactionDto {
   @IsUUID('4')
   @IsNotEmpty()
   transferTo?: string;
+
+  @ApiProperty({
+    description: 'the otp from your authenticator',
+  })
+  @IsString()
+  @IsNotEmpty()
+  otp: string;
 }

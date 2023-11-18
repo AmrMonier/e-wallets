@@ -67,6 +67,7 @@ describe('AccountsService', () => {
         userId: 1,
         pin: '1234',
         alias: 'test',
+        pinConfirmation: '1234',
       };
 
       await service.create(payload);
@@ -81,6 +82,7 @@ describe('AccountsService', () => {
         userId: 1,
         pin: '1234',
         alias: 'test',
+        pinConfirmation: '1234',
       };
 
       await service.create(payload);
@@ -96,6 +98,7 @@ describe('AccountsService', () => {
         userId: 1,
         pin: '1234',
         alias: 'test',
+        pinConfirmation: '1234',
       });
       expect(account).toBeDefined();
     });
