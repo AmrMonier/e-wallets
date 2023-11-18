@@ -2,7 +2,7 @@
 
 ## Brief About the App
 
-The E-Wallets application is a simple yet efficient server-side application built using the NestJS framework. It's designed to handle various aspects of digital wallet management, including user accounts, transactions, security features, and data integrity by using two Factors Authentication for ensuring security and pessimistic write approach to ensure no error in balances calculations. **YOU CAN USE [THIS](https://base64.guru/converter/decode/image/png) WEBSITE TO VIEW THE QR CODES SINCE IT'S BEING RETURNED AS BASE64**
+The E-Wallets application is a simple yet efficient server-side application built using the NestJS framework. It's designed to handle various aspects of digital wallet management, including user accounts, transactions, security features, and data integrity by using two Factors Authentication [using authenticator apps] for ensuring security and pessimistic write approach to ensure no error in balances calculations. **YOU CAN USE [THIS](https://base64.guru/converter/decode/image/png) WEBSITE TO VIEW THE QR CODES SINCE IT'S BEING RETURNED AS BASE64**
 
 ## Documentation
 
