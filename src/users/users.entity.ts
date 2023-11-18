@@ -1,4 +1,5 @@
 import { Exclude, plainToClass } from 'class-transformer';
+import { Account } from 'src/accounts/accounts.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,7 @@ import {
   UpdateDateColumn,
   Index,
   BaseEntity,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -49,6 +51,8 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @OneToMany(() => Account, (account) => account.user)
+  accounts: Account;
   toJSON() {
     return plainToClass(User, this);
   }
